@@ -13,6 +13,7 @@ def do_property_overrides( core_site: ElementTree, hdfs_props: dict ) -> Element
             overwrite_prop( core_site, "fs.defaultFS", namenode_address )  # careful this mutates core_site
         else:
             print( f"invalid HDFS_NAMENODE_ADDRESS value : {namenode_address}" )
+            exit( 1 )
     if namenode_name is not None:
         print( "reset namenode name" )
         overwrite_prop( core_site, "fs.default.name", namenode_name )
