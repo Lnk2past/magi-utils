@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ElementTree
 from re import match
 
 from common.helpers import overwrite_prop, get_env
-
+import sys
 
 def do_property_overrides( hbase_site: ElementTree, hdfs_props: dict ) -> ElementTree:
     hbase_root_dir = hdfs_props[ "HBASE_ROOT_DIR" ] if "HBASE_ROOT_DIR" in hdfs_props.keys() else None
@@ -14,7 +14,7 @@ def do_property_overrides( hbase_site: ElementTree, hdfs_props: dict ) -> Elemen
             overwrite_prop( hbase_site, "hbase.rootdir", hbase_root_dir )  # careful this mutates core_site
         else:
             print( f"invalid HBASE_ROOT_DIR value : {hbase_root_dir}" )
-            exit( 1 )
+            sys.exit( 1 )
     if zookeeper_host is not None:
         print( f"reset zk host {zookeeper_host}" )
         overwrite_prop( hbase_site, "hbase.zookeeper.quorum", zookeeper_host )
