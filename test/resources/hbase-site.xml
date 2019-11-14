@@ -7,6 +7,11 @@
     </property>
 
     <property>
+        <name>hbase.master.hostname</name>
+        <value>hbase-master</value>
+    </property>
+
+    <property>
         <name>hbase.rootdir</name>
         <value>hdfs://hdfs-namenode:9000/hbase</value>
     </property>

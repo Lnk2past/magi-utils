@@ -28,6 +28,7 @@ class HbaseSiteOverrideTesSuite( unittest.TestCase ):
         environ[ "HBASE_ROOT_DIR" ] = "hdfs://namenode.magi.io:9000/hbase"
         environ[ "HBASE_ZOOKEEPER_HOST" ] = "zk-test"
         environ[ "HBASE_ZOOKEEPER_PORT" ] = "6308"
+        environ[ "HBASE_MASTER_HOSTNAME" ] = "hbase.master"
         original = read_xml( conf_dir, self.filename )
         processed = process( original )
         overwrite_file( conf_dir, self.filename, processed )
@@ -36,6 +37,7 @@ class HbaseSiteOverrideTesSuite( unittest.TestCase ):
         assert (verify_prop_values( updated, "hbase.rootdir", environ[ "HBASE_ROOT_DIR" ] ))
         assert (verify_prop_values( updated, "hbase.zookeeper.quorum", environ[ "HBASE_ZOOKEEPER_HOST" ] ))
         assert (verify_prop_values( updated, "hbase.zookeeper.property.clientPort", environ[ "HBASE_ZOOKEEPER_PORT" ] ))
+        assert (verify_prop_values( updated, "hbase.master.hostname", environ[ "HBASE_MASTER_HOSTNAME" ] ))
 
 
 if __name__ == '__main__':

@@ -26,6 +26,8 @@ def get_env( prefix: str ) -> dict:
 
 def overwrite_prop( doc: ElementTree, prop_name: str, value: str ):
     for prop in doc.findall( "property" ):
+        if prop == "hbase.master.hostname":
+            print( "asdfasdf" )
         if prop.find( "name" ).text == prop_name:
             print( f'replacing {prop_name} : {prop.find( "value" ).text} with {value}' )
             prop.find( "value" ).text = value  ## careful, this modifies the doc

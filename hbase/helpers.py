@@ -4,10 +4,15 @@ from re import match
 from common.helpers import overwrite_prop, get_env
 import sys
 
+
 def do_property_overrides( hbase_site: ElementTree, hdfs_props: dict ) -> ElementTree:
+    hbase_master_hostname = hdfs_props[ "HBASE_MASTER_HOSTNAME" ] if "HBASE_MASTER_HOSTNAME" in hdfs_props.keys() else None
     hbase_root_dir = hdfs_props[ "HBASE_ROOT_DIR" ] if "HBASE_ROOT_DIR" in hdfs_props.keys() else None
     zookeeper_host = hdfs_props[ "HBASE_ZOOKEEPER_HOST" ] if "HBASE_ZOOKEEPER_HOST" in hdfs_props.keys() else None
     zookeeper_port = hdfs_props[ "HBASE_ZOOKEEPER_PORT" ] if "HBASE_ZOOKEEPER_PORT" in hdfs_props.keys() else None
+    if hbase_master_hostname is not None:
+        print( f"setting hbase.master.hostname to: {hbase_master_hostname}" )
+        overwrite_prop( hbase_site, "hbase.master.hostname", hbase_master_hostname )  # careful this mutates core_site
     if hbase_root_dir is not None:
         print( f"reset hbase root.dir {hbase_root_dir}" )
         if match( "hdfs:\/\/[a-zA-Z0-9.-]+(:\d{0,5})?\/[a-zA-Z0-9.-]+", hbase_root_dir ):

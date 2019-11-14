@@ -14,6 +14,15 @@ class HbaseSiteProcessingTestSuite( unittest.TestCase ):
         conf_dir = "test/resources"
         environ[ "CONF_DIR" ] = conf_dir
 
+    def test_replace_hbase_master_hostname( self ):
+        conf_dir = environ.get( "CONF_DIR" )
+        environ[ "HBASE_MASTER_HOSTNAME" ] = "hbase.master"
+
+        xml = read_xml( conf_dir, self.hbase_site_file )
+        output = process( xml )
+
+        assert (verify_prop_values( output, "hbase.master.hostname", environ[ "HBASE_MASTER_HOSTNAME" ] ))
+
     def test_replace_hbase_root_dir( self ):
         conf_dir = environ.get( "CONF_DIR" )
         environ[ "HBASE_ROOT_DIR" ] = "hdfs://namenode.magi.io:9000/hbase"
@@ -46,6 +55,7 @@ class HbaseSiteProcessingTestSuite( unittest.TestCase ):
         environ[ "HBASE_ROOT_DIR" ] = "hdfs://namenode.magi.io:9000/hbase"
         environ[ "HBASE_ZOOKEEPER_HOST" ] = "zk-test"
         environ[ "HBASE_ZOOKEEPER_PORT" ] = "6308"
+        environ[ "HBASE_MASTER_HOSTNAME" ] = "hbase.master"
 
         xml = read_xml( conf_dir, self.hbase_site_file )
         output = process( xml )
@@ -53,6 +63,7 @@ class HbaseSiteProcessingTestSuite( unittest.TestCase ):
         assert (verify_prop_values( output, "hbase.rootdir", environ[ "HBASE_ROOT_DIR" ] ))
         assert (verify_prop_values( output, "hbase.zookeeper.quorum", environ[ "HBASE_ZOOKEEPER_HOST" ] ))
         assert (verify_prop_values( output, "hbase.zookeeper.property.clientPort", environ[ "HBASE_ZOOKEEPER_PORT" ] ))
+        assert (verify_prop_values( output, "hbase.master.hostname", environ[ "HBASE_MASTER_HOSTNAME" ] ))
 
 
 if __name__ == '__main__':
