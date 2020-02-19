@@ -32,7 +32,7 @@ def overwrite_prop( doc: ElementTree, prop_name: str, value: str ):
             break
     else:
         print( f'adding {prop_name} : {value}' )
-        new_prop = ElementTree.SubElement( doc, 'property' )
+        new_prop = ElementTree.SubElement( doc.getroot(), 'property' )
         ElementTree.SubElement( new_prop, 'name' ).text = prop_name
         ElementTree.SubElement( new_prop, 'value' ).text = value
 
